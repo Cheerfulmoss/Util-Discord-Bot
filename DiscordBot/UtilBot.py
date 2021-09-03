@@ -7,7 +7,7 @@ import json
 from dotenv import load_dotenv
 
 # ---Version-----------------------------------------------------
-version = "1.0"
+version = "1.2"
 versionNote = ":p"
 # ---------------------------------------------------------------
 
