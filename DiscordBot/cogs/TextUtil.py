@@ -1,10 +1,13 @@
 from discord.ext import commands
 import datetime
+import json
+import os
 
 
 class TextUtil(commands.Cog):
 
     def __init__(self, client):
+        self.prohibited = json.load(open(f"{os.getcwd()}/\\cogs\\ServerProperties\\prohibit.json", "r"))["servers"]
         self.client = client
 
     @commands.Cog.listener()
@@ -16,7 +19,7 @@ class TextUtil(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, amount=5):
-        if ctx.guild.id != 780275612292087869:
+        if str(ctx.guild.id) not in self.prohibited:
             await ctx.channel.purge(limit=amount + 1)
         else:
             await ctx.send("Prohibited command")
@@ -27,7 +30,8 @@ class TextUtil(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def purge(self, ctx):
-        if ctx.guild.id != 780275612292087869:
+        print(self.prohibited)
+        if str(ctx.guild.id) not in self.prohibited:
             await ctx.channel.purge()
             print(f"---Purge---------------------------------------------------------------------------------")
             print(f"{datetime.datetime.now()}   ||   Channel purged for {ctx.guild.id}")
