@@ -1,3 +1,6 @@
 {
-
+  "GUILD ID": {
+    "slurs": TRUE/FALSE,
+    "swearwords": TRUE/FALSE
+  }
 }
