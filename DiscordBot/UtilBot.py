@@ -16,11 +16,12 @@ versionNote = "\> _ <"
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
 cwd = os.getcwd()
+bot_name = re.search('^[^#]*', str(client.user)).group(0)
 
 
 @client.event
 async def on_ready():
-    print(f"---{re.search('^[^#]*', str(client.user)).group(0)} Main--------------------------------------------------------------------------")
+    print(f"---{bot_name} Main--------------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(f"-----------------------------------------------------------------------------------------\n")
 
@@ -43,7 +44,7 @@ async def on_command_error(ctx, error):
 
 @client.event
 async def on_disconnect():
-    print(f"---{re.search('^[^#]*', str(client.user)).group(0)} Disconnect--------------------------------------------------------------------")
+    print(f"---{bot_name} Disconnect--------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
     print(f"-----------------------------------------------------------------------------------------")
 
@@ -176,9 +177,8 @@ async def discord_help(ctx):
     if_ban_members = short.ban_members
     if_kick_members = short.kick_members
 
-    bot_name = re.search("^[^#]*", str(client.user)).group(0)
     help_embed = discord.Embed(title=f"{bot_name} help",
-                               description=f"Just some info on how to use {re.search('^[^#]*', str(client.user)).group(0)}",
+                               description=f"Just some info on how to use {bot_name}",
                                colour=discord.Colour.from_rgb(26, 255, 0)
                                )
     if if_admin:
