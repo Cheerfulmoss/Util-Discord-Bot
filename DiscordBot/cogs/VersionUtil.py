@@ -7,15 +7,18 @@ import json
 import string
 import re
 
+global bot_name
+
 
 class VersionUtil(commands.Cog):
-
     def __init__(self, client):
+        self.client = client
         self.cwd = os.getcwd()
-        self.bot_name = re.search('^[^#]*', str(client.user)).group(0)
 
     @commands.Cog.listener()
     async def on_ready(self):
+        global bot_name
+        bot_name = re.search('^[^#]*', str(self.client.user)).group(0)
         print(f"---VersionUtil Response------------------------------------------------------------------")
         print(f"{datetime.datetime.now()}   ||   VersionUtil cog loaded")
         print(f"-----------------------------------------------------------------------------------------\n")
@@ -23,19 +26,20 @@ class VersionUtil(commands.Cog):
     @commands.command()
     async def check(self, ctx, *, option):
 
+        global bot_name
         for symbol in string.punctuation:
             option = option.replace(symbol, "").replace(" ", "").lower()
 
         if "vers" in option:
 
-            version_embed = discord.Embed(title=f"{self.bot_name} Version")
+            version_embed = discord.Embed(title=f"{bot_name} Version")
             version_embed.add_field(name=version, value=versionNote)
             await ctx.send(embed=version_embed)
 
         elif "set" in option:
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
-            settings_embed = discord.Embed(title=f"{self.bot_name} Settings")
+            settings_embed = discord.Embed(title=f"{bot_name} Settings")
             swear_setting = server_settings[f"{ctx.guild.id}"]["swearwords"].lower()
             slur_settings = server_settings[f"{ctx.guild.id}"]["slurs"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
