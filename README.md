@@ -5,7 +5,7 @@
 UtilBot is a discord bot coded in python that has a bunch of utilitarian functions. Namely:
  - Profanity filter (With settings)
 
-![[ProfanitySettings.png]]
+![ProfanitySettings](https://user-images.githubusercontent.com/41566305/133441498-60fd9e00-5986-4be2-996d-1d25ce13b08b.png)
  - A command to completely clear a chat
  - A command to delete a number of messages
  - The command to ban, kick and unban a server member
@@ -16,7 +16,7 @@ UtilBot is a discord bot coded in python that has a bunch of utilitarian functio
 	 - Amount of slurs said
 	 - profanity settings
 
-![[check.png]]
+![check](https://user-images.githubusercontent.com/41566305/133441528-245bf34a-5c06-498f-96bf-a8cab83ca2ae.png)
 
 
 ## Requirements
