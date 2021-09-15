@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import re
 
 # ---Version-----------------------------------------------------
-version = "1.5"
+version = "1.7"
 versionNote = "\> _ <"
 # ---------------------------------------------------------------
 
@@ -20,7 +20,7 @@ cwd = os.getcwd()
 
 @client.event
 async def on_ready():
-    print(f"---UtilBot Main--------------------------------------------------------------------------")
+    print(f"---{re.search('^[^#]*', str(client.user)).group(0)} Main--------------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(f"-----------------------------------------------------------------------------------------\n")
 
@@ -43,7 +43,7 @@ async def on_command_error(ctx, error):
 
 @client.event
 async def on_disconnect():
-    print(f"---UtilBot Disconnect--------------------------------------------------------------------")
+    print(f"---{re.search('^[^#]*', str(client.user)).group(0)} Disconnect--------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
     print(f"-----------------------------------------------------------------------------------------")
 
@@ -178,7 +178,7 @@ async def discord_help(ctx):
 
     bot_name = re.search("^[^#]*", str(client.user)).group(0)
     help_embed = discord.Embed(title=f"{bot_name} help",
-                               description=f"Just some info on how to use UtilBot",
+                               description=f"Just some info on how to use {re.search('^[^#]*', str(client.user)).group(0)}",
                                colour=discord.Colour.from_rgb(26, 255, 0)
                                )
     if if_admin:
