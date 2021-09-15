@@ -17,7 +17,7 @@ class TextUtil(commands.Cog):
         print(f"-----------------------------------------------------------------------------------------\n")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, manage_messages=True)
     async def clear(self, ctx, amount=5):
         if str(ctx.guild.id) not in self.prohibited:
             await ctx.channel.purge(limit=amount + 1)
@@ -28,9 +28,8 @@ class TextUtil(commands.Cog):
             print(f"-----------------------------------------------------------------------------------------\n")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, manage_messages=True)
     async def purge(self, ctx):
-        print(self.prohibited)
         if str(ctx.guild.id) not in self.prohibited:
             await ctx.channel.purge()
             print(f"---Purge---------------------------------------------------------------------------------")
@@ -43,8 +42,5 @@ class TextUtil(commands.Cog):
             print(f"-----------------------------------------------------------------------------------------\n")
 
 
-
 def setup(client):
     client.add_cog(TextUtil(client))
-
-
