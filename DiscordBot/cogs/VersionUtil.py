@@ -40,8 +40,8 @@ class VersionUtil(commands.Cog):
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
             settings_embed = discord.Embed(title=f"{bot_name} Settings")
-            swear_setting = server_settings[f"{ctx.guild.id}"]["swearwords"].lower()
-            slur_settings = server_settings[f"{ctx.guild.id}"]["slurs"].lower()
+            swear_setting = server_settings[f"{ctx.guild.id}"]["SwearWords"].lower()
+            slur_settings = server_settings[f"{ctx.guild.id}"]["Slurs"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
                                                                     f"Slurs: {slur_settings.upper()}")
             await ctx.send(embed=settings_embed)
