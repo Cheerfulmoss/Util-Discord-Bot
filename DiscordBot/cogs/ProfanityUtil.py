@@ -11,8 +11,7 @@ class ProfanityUtil(commands.Cog):
         self.cwd = cwd = os.getcwd()
         self.client = client
 
-        profanity_list = open(f"{cwd}\\cogs\\ProfanityFiles\\BadWords.json", "r")
-        self.pList = json.load(profanity_list)
+        self.pList = json.load(open(f"{cwd}\\cogs\\ProfanityFiles\\BadWords.json", "r"))
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -20,7 +19,6 @@ class ProfanityUtil(commands.Cog):
         print(f"{datetime.datetime.now()}   ||   ProfanityUtil cog loaded")
         print(f"-----------------------------------------------------------------------------------------\n")
 
-    # noinspection PyGlobalUndefined
     @commands.Cog.listener()
     async def on_message(self, message):
         global message_fix
