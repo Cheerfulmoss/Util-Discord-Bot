@@ -24,20 +24,20 @@ class VersionUtil(commands.Cog):
         for symbol in string.punctuation:
             option = option.replace(symbol, "").replace(" ", "").lower()
 
-        if "version" in option:
+        if "vers" in option:
 
             version_embed = discord.Embed(title="UtilBot Version")
             version_embed.add_field(name=version, value=versionNote)
             await ctx.send(embed=version_embed)
 
-        elif "settings" in option or "setting" in option:
+        elif "set" in option:
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
             settings_embed = discord.Embed(title="UtilBot Settings")
-            swear_setting = server_settings[f"{ctx.guild.id}"]["SwearWords"].lower()
-            slur_settings = server_settings[f"{ctx.guild.id}"]["Slurs"].lower()
-            settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting}\n"
-                                                                    f"Slurs: {slur_settings}")
+            swear_setting = server_settings[f"{ctx.guild.id}"]["swearwords"].lower()
+            slur_settings = server_settings[f"{ctx.guild.id}"]["slurs"].lower()
+            settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
+                                                                    f"Slurs: {slur_settings.upper()}")
             await ctx.send(embed=settings_embed)
 
         elif "stat" in option:
