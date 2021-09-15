@@ -16,19 +16,19 @@ class UserUtil(commands.Cog):
         print(f"-----------------------------------------------------------------------------------------\n")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         await ctx.send(f"Kicked {member.mention} for {reason}")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
         await ctx.send(f"Banned {member.mention} for {reason}")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, ban_members=True)
     async def unban(self, ctx, *, member):
         banned_members = await ctx.guild.bans()
         member_name, member_discriminator = member.split("#")
@@ -42,7 +42,7 @@ class UserUtil(commands.Cog):
                 return
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(administrator=True, ban_members=True)
     async def banlist(self, ctx):
         banned_member_list = []
         banned_bot_list = []
