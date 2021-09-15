@@ -5,12 +5,14 @@ from DiscordBot.UtilBot import version, versionNote
 import os
 import json
 import string
+import re
 
 
 class VersionUtil(commands.Cog):
 
     def __init__(self, client):
         self.cwd = os.getcwd()
+        self.client = client
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -26,14 +28,14 @@ class VersionUtil(commands.Cog):
 
         if "vers" in option:
 
-            version_embed = discord.Embed(title="UtilBot Version")
+            version_embed = discord.Embed(title=f"{re.search('^[^#]*', str(self.client.user)).group(0)} Version")
             version_embed.add_field(name=version, value=versionNote)
             await ctx.send(embed=version_embed)
 
         elif "set" in option:
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
-            settings_embed = discord.Embed(title="UtilBot Settings")
+            settings_embed = discord.Embed(title=f"{re.search('^[^#]*', str(self.client.user)).group(0)} Settings")
             swear_setting = server_settings[f"{ctx.guild.id}"]["swearwords"].lower()
             slur_settings = server_settings[f"{ctx.guild.id}"]["slurs"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
