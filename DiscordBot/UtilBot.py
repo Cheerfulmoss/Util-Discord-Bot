@@ -33,6 +33,21 @@ for filename in os.listdir("./cogs"):
 print(f"-----------------------------------------------------------------------------------------\n")
 
 
+@client.command()
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(f"Please pass in all required arguments")
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send(f"You do not have necessary permissions")
+
+
+@client.event
+async def on_disconnect():
+    print(f"---UtilBot Disconnect--------------------------------------------------------------------")
+    print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
+    print(f"-----------------------------------------------------------------------------------------")
+
+
 @client.event
 async def on_guild_join(guild):
     print(f"---Added to Guild------------------------------------------------------------------------")
@@ -213,21 +228,6 @@ async def discord_help(ctx):
                          )
 
     await ctx.send(embed=help_embed)
-
-
-@client.command()
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f"Please pass in all required arguments")
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send(f"You do not have necessary permissions")
-
-
-@client.event
-async def on_disconnect():
-    print(f"---UtilBot Disconnect--------------------------------------------------------------------")
-    print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
-    print(f"-----------------------------------------------------------------------------------------")
 
 
 load_dotenv()
