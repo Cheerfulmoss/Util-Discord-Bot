@@ -5,6 +5,7 @@ import os
 import asyncio
 import json
 from dotenv import load_dotenv
+import re
 
 # ---Version-----------------------------------------------------
 version = "1.2"
@@ -13,6 +14,7 @@ versionNote = ":p"
 
 
 client = commands.Bot(command_prefix="U!")
+client.remove_command('help')
 cwd = os.getcwd()
 
 
@@ -21,6 +23,14 @@ async def on_ready():
     print(f"---UtilBot Main--------------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(f"-----------------------------------------------------------------------------------------\n")
+
+
+print(f"---Initial Load--------------------------------------------------------------------------")
+for filename in os.listdir("./cogs"):
+    if filename.endswith(".py"):
+        client.load_extension(f"cogs.{filename[:-3]}")
+        print(f"{datetime.datetime.now()}   ||   {filename} loaded successfully")
+print(f"-----------------------------------------------------------------------------------------\n")
 
 
 @client.event
@@ -73,9 +83,9 @@ async def on_guild_remove(guild):
     print(f"-----------------------------------------------------------------------------------------\n")
 
 
-@client.command()
+@client.command(aliases=["profanitysettings"])
 @commands.has_permissions(administrator=True)
-async def profanitysettings(ctx, slurs, swearwords):
+async def profanity_settings(ctx, slurs, swearwords):
     if slurs.lower() == "true" or slurs.lower() == "false" or swearwords.lower() == "true" or slurs.lower() == "false":
         pass
     else:
@@ -106,21 +116,13 @@ async def profanitysettings(ctx, slurs, swearwords):
     print(f"-----------------------------------------------------------------------------------------\n")
 
 
-print(f"---Initial Load--------------------------------------------------------------------------")
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        client.load_extension(f"cogs.{filename[:-3]}")
-        print(f"{datetime.datetime.now()}   ||   {filename} loaded successfully")
-print(f"-----------------------------------------------------------------------------------------\n")
-
-
 @client.command()
 @commands.is_owner()
 async def load(ctx, extension="all"):
     if extension == "all":
-        for filename in os.listdir("./cogs"):
-            if filename.endswith(".py"):
-                client.load_extension(f"cogs.{filename[:-3]}")
+        for file_name in os.listdir("./cogs"):
+            if file_name.endswith(".py"):
+                client.load_extension(f"cogs.{file_name[:-3]}")
     else:
         client.load_extension(f"cogs.{extension}")
 
@@ -135,20 +137,82 @@ async def unload(ctx, extension):
 @commands.is_owner()
 async def reload(ctx):
     print(f"---reload--------------------------------------------------------------------------------")
-    for filename in os.listdir("./cogs"):
-        if filename.endswith(".py"):
-            client.unload_extension(f"cogs.{filename[:-3]}")
-            print(f"{datetime.datetime.now()}   ||   {filename} unloaded successfully")
+    for file_name in os.listdir("./cogs"):
+        if file_name.endswith(".py"):
+            client.unload_extension(f"cogs.{file_name[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {file_name} unloaded successfully")
     await asyncio.sleep(2)
     print(f"-----------------------------------------------------------------------------------------")
     await asyncio.sleep(2)
-    for filename in os.listdir("./cogs"):
-        if filename.endswith(".py"):
-            client.load_extension(f"cogs.{filename[:-3]}")
-            print(f"{datetime.datetime.now()}   ||   {filename} loaded successfully")
+    for file_name in os.listdir("./cogs"):
+        if file_name.endswith(".py"):
+            client.load_extension(f"cogs.{file_name[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {file_name} loaded successfully")
     await ctx.send("Cogs reloaded")
     print(f"{datetime.datetime.now()}   ||   Cogs reloaded")
     print(f"-----------------------------------------------------------------------------------------\n")
+
+
+@client.command(aliases=["help", "Help", "HELP"])
+async def discord_help(ctx):
+    short = ctx.author.guild_permissions
+    if_admin = short.administrator
+    if_manage_messages = short.manage_messages
+    if_ban_members = short.ban_members
+    if_kick_members = short.kick_members
+
+    bot_name = re.search("^[^#]*", str(client.user)).group(0)
+    help_embed = discord.Embed(title=f"{bot_name} help",
+                               description=f"Just some info on how to use UtilBot",
+                               colour=discord.Colour.from_rgb(26, 255, 0)
+                               )
+    if if_admin:
+        help_embed.add_field(name=f"Profanity Settings",
+                             value=f"This command controls the settings of the profanity filter on your server.\n"
+                                   f"To use:\n"
+                                   f"```U!profanitysettings [True/False value for slur checks] [True/False value for swear checks]```"
+                             )
+    if if_admin or if_manage_messages:
+        help_embed.add_field(name=f"Clear and Purge",
+                             value=f"Clear and purge are both commands that delete messages. Clear allows you to "
+                                   f"specify the amount of messages to delete, while purge deletes all messages in"
+                                   f"that channel.\n"
+                                   f"To use:\n"
+                                   f"```U!clear [number of messages]```\n"
+                                   f"```U!purge```"
+                             )
+    if if_admin or if_kick_members:
+        help_embed.add_field(name=f"Kick",
+                             value=f"Kick members, duh\n"
+                                   f"To use:\n"
+                                   f"```U!kick [members name]```"
+                             )
+    if if_admin or if_ban_members:
+        help_embed.add_field(name=f"Ban and unban",
+                             value=f"Ban and unban members, duh.\n"
+                                   f"To use:\n"
+                                   f"```U!ban [members name]```\n"
+                                   f"```U!unban [members name + #xxxx]```"
+                             )
+        help_embed.add_field(name=f"Ban list",
+                             value=f"Ban list, gives you a list of all banned users (including bots).\n"
+                                   f"To use:\n"
+                                   f"```U!banlist```"
+                             )
+    help_embed.add_field(name=f"Ping me in",
+                         value=f"Ping me in, pings you in a specified amount of time.\n"
+                               f"To use:\n"
+                               f"```U!pingmein [units of time] [type: seconds, minutes, hours]```"
+                         )
+    help_embed.add_field(name=f"Check",
+                         value=f"Check lets you check the settings or stats of the server you're in and the version of the bot.\n"
+                               f"To use:\n"
+                               f"```U!check settings```\n"
+                               f"```U!check stats```\n"
+                               f"```U!check version```"
+                         )
+
+    await ctx.send(embed=help_embed)
 
 
 @client.command()
@@ -160,7 +224,7 @@ async def on_command_error(ctx, error):
 
 
 @client.event
-async def on_disconnect(ctx):
+async def on_disconnect():
     print(f"---UtilBot Disconnect--------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
     print(f"-----------------------------------------------------------------------------------------")
