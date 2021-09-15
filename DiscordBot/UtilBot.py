@@ -16,11 +16,13 @@ versionNote = "\> _ <"
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
 cwd = os.getcwd()
-bot_name = re.search('^[^#]*', str(client.user)).group(0)
+global bot_name
 
 
 @client.event
 async def on_ready():
+    global bot_name
+    bot_name = re.search('^[^#]*', str(client.user)).group(0)
     print(f"---{bot_name} Main--------------------------------------------------------------------------")
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(f"-----------------------------------------------------------------------------------------\n")
