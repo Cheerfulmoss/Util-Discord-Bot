@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 import re
 
 # ---Version-----------------------------------------------------
-version = "1.2"
-versionNote = ":p"
+version = "1.5"
+versionNote = "> _ <"
 # ---------------------------------------------------------------
 
 
