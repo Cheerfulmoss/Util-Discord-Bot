@@ -36,13 +36,13 @@ class ProfanityUtil(commands.Cog):
 
             for word in self.pList["swearwords"]:
                 if word in message_fix:
-                    if server_settings[f"{message.guild.id}"]["swearwords"].lower() == "true":
+                    if server_settings[f"{message.guild.id}"]["SwearWords"].lower() == "true":
                         await message.delete()
                     swear_count += 1
 
             for word in self.pList["slurs"]:
                 if word in message_fix:
-                    if server_settings[f"{message.guild.id}"]["slurs"].lower() == "true":
+                    if server_settings[f"{message.guild.id}"]["Slurs"].lower() == "true":
                         await message.delete()
                     slur_count += 1
 
