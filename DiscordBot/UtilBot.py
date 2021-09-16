@@ -19,6 +19,17 @@ cwd = os.getcwd()
 global bot_name
 
 
+def NOR(a,b):
+    if(a==0) and (b==0):
+        return 1
+    elif (a==0) and (b==1):
+        return 0
+    elif (a==1) and (b==0):
+        return 0
+    elif (a==1) and (b==1):
+        return 0
+
+
 @client.event
 async def on_ready():
     global bot_name
@@ -36,7 +47,7 @@ for filename in os.listdir("./cogs"):
 print(f"-----------------------------------------------------------------------------------------\n")
 
 
-@client.command()
+@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(f"Please pass in all required arguments")
@@ -104,9 +115,8 @@ async def on_guild_remove(guild):
 @client.command(aliases=["profanitysettings"])
 @commands.has_permissions(administrator=True)
 async def profanity_settings(ctx, slurs, swearwords):
-    if slurs.lower() == "true" or slurs.lower() == "false" or swearwords.lower() == "true" or slurs.lower() == "false":
-        pass
-    else:
+    if NOR(slurs.lower() == "true" or slurs.lower() == "false",
+           swearwords.lower() == "true" or swearwords.lower() == "false"):
         idle_embed = discord.Embed(title="Change Profanity Settings")
         idle_embed.add_field(name="Syntax:",
                              value="U!profanitysettings [True/False value for slur checks] [True/False value for swear checks]") \
@@ -116,6 +126,7 @@ async def profanity_settings(ctx, slurs, swearwords):
                        value="The base values for this are Slurs=True and SwearWords=False.")
         await ctx.send(embed=idle_embed)
         return
+
 
     print(f"---Profanity Settings Changed------------------------------------------------------------")
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
