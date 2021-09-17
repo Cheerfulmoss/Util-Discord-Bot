@@ -2,6 +2,10 @@ import discord
 from discord.ext import commands
 import datetime
 import asyncio
+import re
+from .GeneralFunctions.string_formatters import title_format
+
+global bot_name
 
 
 class UserUtil(commands.Cog):
@@ -11,9 +15,12 @@ class UserUtil(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"---UserUtil Response---------------------------------------------------------------------")
+        global bot_name
+        bot_name = re.search('^[^#]*', str(self.client.user)).group(0)
+        debug_title_ready = title_format(f"{bot_name}: UserUtil Response")
+        print(debug_title_ready[0])
         print(f"{datetime.datetime.now()}   ||   UserUtil cog loaded")
-        print(f"-----------------------------------------------------------------------------------------\n")
+        print(debug_title_ready[1])
 
     @commands.command()
     @commands.has_permissions(administrator=True, kick_members=True)
