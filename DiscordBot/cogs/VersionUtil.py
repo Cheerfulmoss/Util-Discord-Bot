@@ -5,6 +5,7 @@ import os
 import json
 import string
 import re
+import math
 from .GeneralFunctions.string_formatters import title_format
 
 global bot_name
@@ -55,10 +56,18 @@ class VersionUtil(commands.Cog):
             properties_embed = discord.Embed(title="Server Properties")
             swear_count = server_properties[str(ctx.guild.id)]["swearcount"]
             slur_count = server_properties[str(ctx.guild.id)]["slurcount"]
+            word_count = server_properties[str(ctx.guild.id)]["wordcount"]
             properties_embed.add_field(name="Amount of swear words said:", value=swear_count)
             properties_embed.add_field(name="Amount of slurs said:", value=slur_count)
-
-            await ctx.send(embed=properties_embed)
+            percent = ((slur_count + swear_count) / word_count) * 100
+            bar_custom = '-' * (math.floor((percent - 1) / 4)) + 'X' + '-' * (math.floor((100 - percent) / 4))
+            properties_embed.add_field(name="Percentage of text content being slurs or swear words:",
+                                       value=f"{round(percent, 2)}"
+                                       )
+            await ctx.send(embed=properties_embed,
+                           content=f"Percentage of words that are swears or slurs\n"
+                                   f"0% | {bar_custom} | 100%"
+                           )
 
 
 def setup(client):
