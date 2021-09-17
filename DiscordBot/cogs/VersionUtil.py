@@ -61,7 +61,7 @@ class VersionUtil(commands.Cog):
             properties_embed.add_field(name="Amount of slurs said:", value=slur_count)
             percent = ((slur_count + swear_count) / word_count) * 100
             bar_custom = '-' * (math.floor((percent - 1) / 4)) + 'X' + '-' * (math.floor((100 - percent) / 4))
-            properties_embed.add_field(name="Percentage of text content being slurs or swear words:",
+            properties_embed.add_field(name="Percentage of words that are swears or slurs:",
                                        value=f"{round(percent, 2)}"
                                        )
             await ctx.send(embed=properties_embed,
