@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.tasks import loop
 import datetime
 import os
 import asyncio
@@ -7,6 +8,11 @@ import json
 from dotenv import load_dotenv
 import re
 from cogs.GeneralFunctions.string_formatters import title_format
+
+# Debug ------------
+full_debug = True
+# ------------------
+
 
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
@@ -26,12 +32,28 @@ def NOR(a, b):
 
 
 def load_cogs(load_type):
-    load_cog_title = title_format(f"{bot_name}: {load_type} Load")
+    try:
+        load_cog_title = title_format(f"{bot_name}: {load_type} Load")
+    except:
+        load_cog_title = title_format(f"UtilBot: {load_type} Load")
     print(load_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             client.load_extension(f"cogs.{filename[:-3]}")
             print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Loaded")
+    print(load_cog_title[1])
+
+
+def unload_cogs(load_type):
+    try:
+        load_cog_title = title_format(f"{bot_name}: {load_type} Unload")
+    except:
+        load_cog_title = title_format(f"UtilBot: {load_type} Unload")
+    print(load_cog_title[0])
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            client.unload_extension(f"cogs.{filename[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Unloaded")
     print(load_cog_title[1])
 
 
@@ -43,6 +65,11 @@ async def on_ready():
     print(debug_title_ready[0])
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(debug_title_ready[1])
+    if full_debug == False:
+        load_cogs("Initial")
+
+
+if full_debug == True:
     load_cogs("Initial")
 
 
@@ -75,11 +102,12 @@ async def on_guild_join(guild):
     slurs = "True"
     swear_words = "False"
 
-    swearcount = 0
-    slurcount = 0
+    swear_count = 0
+    slur_count = 0
+    word_count = 0
 
     settings[str(guild.id)] = {"slurs": slurs, "swearwords": swear_words}
-    properties[str(guild.id)] = {"slurcount": slurcount, "swearcount": swearcount}
+    properties[str(guild.id)] = {"slurcount": slur_count, "swearcount": swear_count, "wordcount": word_count}
 
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "w") as settingsJson:
         json.dump(settings, settingsJson, indent=4)
@@ -112,6 +140,14 @@ async def on_guild_remove(guild):
 
     print(f"{datetime.datetime.now()}   ||   {client.user} removed from guild: {guild.id}")
     print(debug_title_remove[1])
+
+
+@loop(hours=5)
+async def auto_reload():
+    await asyncio.sleep(5)
+    unload_cogs("Auto")
+    await asyncio.sleep(1)
+    load_cogs("Auto")
 
 
 @client.command(aliases=["profanitysettings"])
@@ -246,4 +282,5 @@ async def discord_help(ctx):
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+auto_reload.start()
 client.run(TOKEN)
