@@ -2,6 +2,10 @@ from discord.ext import commands
 import datetime
 import json
 import os
+import re
+from .GeneralFunctions.string_formatters import title_format
+
+global bot_name
 
 
 class TextUtil(commands.Cog):
@@ -12,9 +16,12 @@ class TextUtil(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"---TextUtil Response---------------------------------------------------------------------")
+        global bot_name
+        bot_name = re.search('^[^#]*', str(self.client.user)).group(0)
+        debug_title_ready = title_format(f"{bot_name}: TextUtil Response")
+        print(debug_title_ready[0])
         print(f"{datetime.datetime.now()}   ||   TextUtil cog loaded")
-        print(f"-----------------------------------------------------------------------------------------\n")
+        print(debug_title_ready[1])
 
     @commands.command()
     @commands.has_permissions(administrator=True, manage_messages=True)
@@ -23,23 +30,26 @@ class TextUtil(commands.Cog):
             await ctx.channel.purge(limit=amount + 1)
         else:
             await ctx.send("Prohibited command")
-            print(f"---Clear---------------------------------------------------------------------------------")
+            debug_title_clear_prohibited = title_format(f"{bot_name}: Prohibited Command - Clear")
+            print(debug_title_clear_prohibited[0])
             print(f"{datetime.datetime.now()}   ||   Channel clear attempt for {ctx.guild.id}: FAILED")
-            print(f"-----------------------------------------------------------------------------------------\n")
+            print(debug_title_clear_prohibited[1])
 
     @commands.command()
     @commands.has_permissions(administrator=True, manage_messages=True)
     async def purge(self, ctx):
         if str(ctx.guild.id) not in self.prohibited:
             await ctx.channel.purge()
-            print(f"---Purge---------------------------------------------------------------------------------")
+            debug_title_purge = title_format(f"{bot_name}: Purge")
+            print(debug_title_purge[0])
             print(f"{datetime.datetime.now()}   ||   Channel purged for {ctx.guild.id}")
-            print(f"-----------------------------------------------------------------------------------------\n")
+            print(debug_title_purge[1])
         else:
             await ctx.send("Prohibited command")
-            print(f"---Purge---------------------------------------------------------------------------------")
+            debug_title_purge_prohibited = title_format(f"{bot_name}: Prohibited Command - PURGE")
+            print(debug_title_purge_prohibited[0])
             print(f"{datetime.datetime.now()}   ||   Channel purged attempt for {ctx.guild.id}: FAILED")
-            print(f"-----------------------------------------------------------------------------------------\n")
+            print(debug_title_purge_prohibited[1])
 
 
 def setup(client):
