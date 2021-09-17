@@ -46,15 +46,31 @@ def load_cogs(load_type):
 
 def unload_cogs(load_type):
     try:
-        load_cog_title = title_format(f"{bot_name}: {load_type} Unload")
+        unload_cog_title = title_format(f"{bot_name}: {load_type} Unload")
     except:
-        load_cog_title = title_format(f"UtilBot: {load_type} Unload")
-    print(load_cog_title[0])
+        unload_cog_title = title_format(f"UtilBot: {load_type} Unload")
+    print(unload_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             client.unload_extension(f"cogs.{filename[:-3]}")
             print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Unloaded")
-    print(load_cog_title[1])
+    print(unload_cog_title[1])
+
+
+def reload_cogs(load_type):
+    try:
+        reload_cog_title = title_format(f"{bot_name}: {load_type} Reload")
+    except:
+        reload_cog_title = title_format(f"UtilBot: {load_type} Reload")
+    print(reload_cog_title[0])
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            client.unload_extension(f"cogs.{filename[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Unloaded")
+            client.load_extension(f"cogs.{filename[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {filename[:-3]} loaded")
+    print(reload_cog_title[1])
+
 
 
 @client.event
@@ -144,10 +160,7 @@ async def on_guild_remove(guild):
 
 @loop(hours=5)
 async def auto_reload():
-    await asyncio.sleep(5)
-    unload_cogs("Auto")
-    await asyncio.sleep(1)
-    load_cogs("Auto")
+    reload_cogs("Auto")
 
 
 @client.command(aliases=["profanitysettings"])
