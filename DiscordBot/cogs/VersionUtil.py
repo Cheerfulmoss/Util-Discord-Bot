@@ -43,7 +43,7 @@ class VersionUtil(commands.Cog):
         elif "set" in option:
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
-            settings_embed = discord.Embed(title=f"{bot_name} Settings", colour=discord.Colour.from_rgb(255, 0, 0))
+            settings_embed = discord.Embed(title=f"{bot_name} Settings", colour=discord.Colour.from_rgb(255, 255, 0))
             swear_setting = server_settings[f"{ctx.guild.id}"]["SwearWords"].lower()
             slur_settings = server_settings[f"{ctx.guild.id}"]["Slurs"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
