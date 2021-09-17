@@ -176,7 +176,7 @@ async def auto_reload():
 async def profanity_settings(ctx, slurs, swearwords):
     if NOR(slurs.lower() == "true" or slurs.lower() == "false",
            swearwords.lower() == "true" or swearwords.lower() == "false"):
-        idle_embed = discord.Embed(title="Change Profanity Settings")
+        idle_embed = discord.Embed(title="Change Profanity Settings", colour=discord.Colour.from_rgb(255, 0, 0))
         idle_embed.add_field(name="Syntax:",
                              value="U!profanitysettings [True/False value for slur checks] [True/False value for swear checks]") \
             .add_field(name="Example:",
@@ -197,7 +197,7 @@ async def profanity_settings(ctx, slurs, swearwords):
         json.dump(settings, settingsJson, indent=4)
     print(f"{datetime.datetime.now()}   ||   Settings changed for {ctx.guild.id}")
 
-    response = discord.Embed(title="Profanity Settings")
+    response = discord.Embed(title="Profanity Settings", color=discord.Color.from_rgb(255, 255, 0))
     response.add_field(name="Slurs:", value=slurs.upper()).add_field(name="Swear Words", value=swearwords.upper())
 
     await ctx.send(embed=response)
@@ -252,7 +252,7 @@ async def create_invite(ctx):
     invite_embed = discord.Embed(title=f"{bot_name} Invite", color=discord.Color.from_rgb(247, 55, 24))
     invite_embed.add_field(name="Link", value=link).add_field(name="Permissions", value="- Administrator")
     await ctx.send(embed=invite_embed)
-    
+
     print(f"{datetime.datetime.now()}   ||   Invite link created in {ctx.guild.id}")
     print(debug_title_invite[1])
 
