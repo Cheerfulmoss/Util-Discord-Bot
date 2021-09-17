@@ -7,11 +7,6 @@ import json
 from dotenv import load_dotenv
 import re
 
-# ---Version-----------------------------------------------------
-version = "1.7"
-versionNote = "\> _ <"
-# ---------------------------------------------------------------
-
 
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
@@ -19,32 +14,41 @@ cwd = os.getcwd()
 global bot_name
 
 
-def NOR(a,b):
-    if(a==0) and (b==0):
+def NOR(a, b):
+    if (a == 0) and (b == 0):
         return 1
-    elif (a==0) and (b==1):
+    elif (a == 0) and (b == 1):
         return 0
-    elif (a==1) and (b==0):
+    elif (a == 1) and (b == 0):
         return 0
-    elif (a==1) and (b==1):
+    elif (a == 1) and (b == 1):
         return 0
+
+
+def title_format(words):
+    title = "---" + words + "-" * (86 - len(words))
+    return title
+
+
+def load_cogs(load_type):
+    load_cog_title = title_format(f"{bot_name}: {load_type} Load")
+    print(load_cog_title)
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            client.load_extension(f"cogs.{filename[:-3]}")
+            print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Loaded")
+    print(f"-----------------------------------------------------------------------------------------\n")
 
 
 @client.event
 async def on_ready():
     global bot_name
     bot_name = re.search('^[^#]*', str(client.user)).group(0)
-    print(f"---{bot_name} Main--------------------------------------------------------------------------")
+    debug_title_ready = title_format(f"{bot_name}: Main")
+    print(debug_title_ready)
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
     print(f"-----------------------------------------------------------------------------------------\n")
-
-
-print(f"---Initial Load--------------------------------------------------------------------------")
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        client.load_extension(f"cogs.{filename[:-3]}")
-        print(f"{datetime.datetime.now()}   ||   {filename} loaded successfully")
-print(f"-----------------------------------------------------------------------------------------\n")
+    load_cogs("Initial")
 
 
 @client.event
@@ -57,14 +61,16 @@ async def on_command_error(ctx, error):
 
 @client.event
 async def on_disconnect():
-    print(f"---{bot_name} Disconnect--------------------------------------------------------------------")
+    debug_title_disconnect = title_format(f"{bot_name}: Disconnected")
+    print(debug_title_disconnect)
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
     print(f"-----------------------------------------------------------------------------------------")
 
 
 @client.event
 async def on_guild_join(guild):
-    print(f"---Added to Guild------------------------------------------------------------------------")
+    debug_title_join = title_format(f"{bot_name}: Added to Guild")
+    print(debug_title_join)
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -92,7 +98,8 @@ async def on_guild_join(guild):
 
 @client.event
 async def on_guild_remove(guild):
-    print(f"---Removed from Guild--------------------------------------------------------------------")
+    debug_title_remove = title_format(f"{bot_name}: Removed from Guild")
+    print(debug_title_remove)
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -127,8 +134,8 @@ async def profanity_settings(ctx, slurs, swearwords):
         await ctx.send(embed=idle_embed)
         return
 
-
-    print(f"---Profanity Settings Changed------------------------------------------------------------")
+    debug_title_settings = title_format(f"{bot_name}: Profanity Settings Changed")
+    print(debug_title_settings)
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -165,7 +172,8 @@ async def unload(ctx, extension):
 @client.command()
 @commands.is_owner()
 async def reload(ctx):
-    print(f"---reload--------------------------------------------------------------------------------")
+    debug_title_reload = title_format(f"{bot_name}: Reload")
+    print(debug_title_reload)
     for file_name in os.listdir("./cogs"):
         if file_name.endswith(".py"):
             client.unload_extension(f"cogs.{file_name[:-3]}")
