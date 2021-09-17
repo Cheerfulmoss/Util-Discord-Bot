@@ -6,7 +6,7 @@ import asyncio
 import json
 from dotenv import load_dotenv
 import re
-
+from cogs.GeneralFunctions.string_formatters import title_format
 
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
@@ -25,19 +25,14 @@ def NOR(a, b):
         return 0
 
 
-def title_format(words):
-    title = "---" + words + "-" * (86 - len(words))
-    return title
-
-
 def load_cogs(load_type):
     load_cog_title = title_format(f"{bot_name}: {load_type} Load")
-    print(load_cog_title)
+    print(load_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             client.load_extension(f"cogs.{filename[:-3]}")
             print(f"{datetime.datetime.now()}   ||   {filename[:-3]} Loaded")
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(load_cog_title[1])
 
 
 @client.event
@@ -45,9 +40,9 @@ async def on_ready():
     global bot_name
     bot_name = re.search('^[^#]*', str(client.user)).group(0)
     debug_title_ready = title_format(f"{bot_name}: Main")
-    print(debug_title_ready)
+    print(debug_title_ready[0])
     print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(debug_title_ready[1])
     load_cogs("Initial")
 
 
@@ -62,15 +57,15 @@ async def on_command_error(ctx, error):
 @client.event
 async def on_disconnect():
     debug_title_disconnect = title_format(f"{bot_name}: Disconnected")
-    print(debug_title_disconnect)
+    print(debug_title_disconnect[0])
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
-    print(f"-----------------------------------------------------------------------------------------")
+    print(debug_title_disconnect[1])
 
 
 @client.event
 async def on_guild_join(guild):
     debug_title_join = title_format(f"{bot_name}: Added to Guild")
-    print(debug_title_join)
+    print(debug_title_join[0])
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -93,13 +88,13 @@ async def on_guild_join(guild):
         json.dump(properties, propertiesJson, indent=4)
 
     print(f"{datetime.datetime.now()}   ||   {client.user} added to guild: {guild.id}")
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(debug_title_join[1])
 
 
 @client.event
 async def on_guild_remove(guild):
     debug_title_remove = title_format(f"{bot_name}: Removed from Guild")
-    print(debug_title_remove)
+    print(debug_title_remove[0])
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -116,7 +111,7 @@ async def on_guild_remove(guild):
         json.dump(properties, propertiesJson, indent=4)
 
     print(f"{datetime.datetime.now()}   ||   {client.user} removed from guild: {guild.id}")
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(debug_title_remove[1])
 
 
 @client.command(aliases=["profanitysettings"])
@@ -135,7 +130,7 @@ async def profanity_settings(ctx, slurs, swearwords):
         return
 
     debug_title_settings = title_format(f"{bot_name}: Profanity Settings Changed")
-    print(debug_title_settings)
+    print(debug_title_settings[0])
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
@@ -149,7 +144,7 @@ async def profanity_settings(ctx, slurs, swearwords):
     response.add_field(name="Slurs:", value=slurs.upper()).add_field(name="Swear Words", value=swearwords.upper())
 
     await ctx.send(embed=response)
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(debug_title_settings[1])
 
 
 @client.command()
@@ -173,13 +168,13 @@ async def unload(ctx, extension):
 @commands.is_owner()
 async def reload(ctx):
     debug_title_reload = title_format(f"{bot_name}: Reload")
-    print(debug_title_reload)
+    print(debug_title_reload[0])
     for file_name in os.listdir("./cogs"):
         if file_name.endswith(".py"):
             client.unload_extension(f"cogs.{file_name[:-3]}")
             print(f"{datetime.datetime.now()}   ||   {file_name} unloaded successfully")
     await asyncio.sleep(2)
-    print(f"-----------------------------------------------------------------------------------------")
+    print(debug_title_reload[1])
     await asyncio.sleep(2)
     for file_name in os.listdir("./cogs"):
         if file_name.endswith(".py"):
@@ -187,7 +182,7 @@ async def reload(ctx):
             print(f"{datetime.datetime.now()}   ||   {file_name} loaded successfully")
     await ctx.send("Cogs reloaded")
     print(f"{datetime.datetime.now()}   ||   Cogs reloaded")
-    print(f"-----------------------------------------------------------------------------------------\n")
+    print(debug_title_reload[1])
 
 
 @client.command(aliases=["help", "Help", "HELP"])
@@ -229,24 +224,24 @@ async def discord_help(ctx):
                                    f"To use:\n"
                                    f"```U!ban [members name]```\n"
                                    f"```U!unban [members name + #xxxx]```"
-                             )
-        help_embed.add_field(name=f"Ban list",
-                             value=f"Ban list, gives you a list of all banned users (including bots).\n"
-                                   f"To use:\n"
-                                   f"```U!banlist```"
-                             )
+                             ) \
+            .add_field(name=f"Ban list",
+                       value=f"Ban list, gives you a list of all banned users (including bots).\n"
+                             f"To use:\n"
+                             f"```U!banlist```"
+                       )
     help_embed.add_field(name=f"Ping me in",
                          value=f"Ping me in, pings you in a specified amount of time.\n"
                                f"To use:\n"
                                f"```U!pingmein [units of time] [type: seconds, minutes, hours]```"
-                         )
-    help_embed.add_field(name=f"Check",
-                         value=f"Check lets you check the settings or stats of the server you're in and the version of the bot.\n"
-                               f"To use:\n"
-                               f"```U!check settings```\n"
-                               f"```U!check stats```\n"
-                               f"```U!check version```"
-                         )
+                         ) \
+        .add_field(name=f"Check",
+                   value=f"Check lets you check the settings or stats of the server you're in and the version of the bot.\n"
+                         f"To use:\n"
+                         f"```U!check settings```\n"
+                         f"```U!check stats```\n"
+                         f"```U!check version```"
+                   )
 
     await ctx.send(embed=help_embed)
 
