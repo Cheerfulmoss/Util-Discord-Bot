@@ -188,10 +188,7 @@ async def reload(ctx):
 @client.command(aliases=["help", "Help", "HELP"])
 async def discord_help(ctx):
     short = ctx.author.guild_permissions
-    if_admin = short.administrator
-    if_manage_messages = short.manage_messages
-    if_ban_members = short.ban_members
-    if_kick_members = short.kick_members
+    if_admin, if_manage_messages, if_ban_members, if_kick_members = short.administrator, short.manage_messages, short.ban_members, short.kick_members
 
     help_embed = discord.Embed(title=f"{bot_name} help",
                                description=f"Just some info on how to use {bot_name}",
