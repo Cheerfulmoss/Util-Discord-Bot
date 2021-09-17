@@ -72,14 +72,13 @@ def reload_cogs(load_type):
     print(reload_cog_title[1])
 
 
-
 @client.event
 async def on_ready():
     global bot_name
     bot_name = re.search('^[^#]*', str(client.user)).group(0)
     debug_title_ready = title_format(f"{bot_name}: Main")
     print(debug_title_ready[0])
-    print(f"{datetime.datetime.now()}   ||   {client.user} has connected to discord!")
+    print(f"{datetime.datetime.now()}   ||   {client.user} is ready!")
     print(debug_title_ready[1])
     if full_debug == False:
         load_cogs("Initial")
@@ -103,6 +102,15 @@ async def on_disconnect():
     print(debug_title_disconnect[0])
     print(f"{datetime.datetime.now()}   ||   {client.user} disconnected from Discord")
     print(debug_title_disconnect[1])
+
+
+@client.event
+async def on_connect():
+    await asyncio.sleep(5)
+    debug_title_connect = title_format(f"{bot_name}: Connected")
+    print(debug_title_connect[0])
+    print(f"{datetime.datetime.now()}   ||   {client.user} connected to Discord")
+    print(debug_title_connect[1])
 
 
 @client.event
@@ -232,6 +240,21 @@ async def reload(ctx):
     await ctx.send("Cogs reloaded")
     print(f"{datetime.datetime.now()}   ||   Cogs reloaded")
     print(debug_title_reload[1])
+
+
+@client.command(aliases=["invite", "Invite"])
+async def create_invite(ctx):
+    debug_title_invite = title_format(f"{bot_name}: Invite Link")
+    print(debug_title_invite[0])
+    data = await client.application_info()
+    link = discord.utils.oauth_url(client_id=data.id, permissions=discord.Permissions(8))
+
+    invite_embed = discord.Embed(title=f"{bot_name} Invite", color=discord.Color.from_rgb(247, 55, 24))
+    invite_embed.add_field(name="Link", value=link).add_field(name="Permissions", value="- Administrator")
+    await ctx.send(embed=invite_embed)
+    
+    print(f"{datetime.datetime.now()}   ||   Invite link created in {ctx.guild.id}")
+    print(debug_title_invite[1])
 
 
 @client.command(aliases=["help", "Help", "HELP"])
