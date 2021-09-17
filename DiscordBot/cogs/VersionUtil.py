@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 import datetime
-from DiscordBot.UtilBot import version, versionNote
 import os
 import json
 import string
@@ -25,7 +24,8 @@ class VersionUtil(commands.Cog):
 
     @commands.command()
     async def check(self, ctx, *, option):
-
+        version = json.load(open(f"{self.cwd}\\cogs\\version_info.json", "r"))["version"]
+        version_note = json.load(open(f"{self.cwd}\\cogs\\version_info.json", "r"))["version_note"]
         global bot_name
         for symbol in string.punctuation:
             option = option.replace(symbol, "").replace(" ", "").lower()
@@ -33,7 +33,7 @@ class VersionUtil(commands.Cog):
         if "vers" in option:
 
             version_embed = discord.Embed(title=f"{bot_name} Version")
-            version_embed.add_field(name=version, value=versionNote)
+            version_embed.add_field(name=version, value=version_note)
             await ctx.send(embed=version_embed)
 
         elif "set" in option:
