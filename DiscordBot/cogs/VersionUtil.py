@@ -36,14 +36,14 @@ class VersionUtil(commands.Cog):
 
         if "vers" in option:
 
-            version_embed = discord.Embed(title=f"{bot_name} Version")
+            version_embed = discord.Embed(title=f"{bot_name} Version", color=discord.Colour.gold())
             version_embed.add_field(name=self.version, value=self.version_note)
             await ctx.send(embed=version_embed)
 
         elif "set" in option:
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
-            settings_embed = discord.Embed(title=f"{bot_name} Settings")
+            settings_embed = discord.Embed(title=f"{bot_name} Settings", colour=discord.Colour.from_rgb(255, 0, 0))
             swear_setting = server_settings[f"{ctx.guild.id}"]["SwearWords"].lower()
             slur_settings = server_settings[f"{ctx.guild.id}"]["Slurs"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
@@ -53,7 +53,7 @@ class VersionUtil(commands.Cog):
         elif "stat" in option:
             server_properties = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\properties.json", "r"))
 
-            properties_embed = discord.Embed(title="Server Properties")
+            properties_embed = discord.Embed(title="Server Properties", colour=discord.Colour.blurple())
             swear_count = server_properties[str(ctx.guild.id)]["swearcount"]
             slur_count = server_properties[str(ctx.guild.id)]["slurcount"]
             word_count = server_properties[str(ctx.guild.id)]["wordcount"]
