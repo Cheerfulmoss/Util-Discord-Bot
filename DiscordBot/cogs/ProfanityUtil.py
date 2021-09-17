@@ -3,6 +3,10 @@ import datetime
 import json
 import os
 import string
+import re
+from .GeneralFunctions.string_formatters import title_format
+
+global bot_name
 
 
 class ProfanityUtil(commands.Cog):
@@ -15,9 +19,12 @@ class ProfanityUtil(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f"---ProfanityUtil Response----------------------------------------------------------------")
+        global bot_name
+        bot_name = re.search('^[^#]*', str(self.client.user)).group(0)
+        debug_title_ready = title_format(f"{bot_name}: ProfanityUtil Response")
+        print(debug_title_ready[0])
         print(f"{datetime.datetime.now()}   ||   ProfanityUtil cog loaded")
-        print(f"-----------------------------------------------------------------------------------------\n")
+        print(debug_title_ready[1])
 
     @commands.Cog.listener()
     async def on_message(self, message):
