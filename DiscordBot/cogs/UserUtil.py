@@ -54,8 +54,6 @@ class UserUtil(commands.Cog):
         banned_member_list = []
         banned_bot_list = []
 
-        ban_embed = discord.Embed(title="Banned Users", color=discord.Color.red())
-
         banned_members = await ctx.guild.bans()
         for user in banned_members:
             if not user[1].bot:
@@ -67,9 +65,10 @@ class UserUtil(commands.Cog):
             banned_bot_list = None
         if len(banned_member_list) <= 0:
             banned_member_list = None
-
+            
+        ban_embed = discord.Embed(title="Banned Users", color=discord.Color.red())
         ban_embed.add_field(name="Humans",
-                            value=str(banned_member_list).replace("[", "").replace("]", "").replace("'", ""))
+                            value=str(banned_member_list).replace("[", "").replace("]", "").replace("'", ""), )
         ban_embed.add_field(name="Bots", value=str(banned_bot_list).replace("[", "").replace("]", "").replace("'", ""))
         await ctx.send(embed=ban_embed)
 
