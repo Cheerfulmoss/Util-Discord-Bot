@@ -310,6 +310,11 @@ async def discord_help(ctx):
                          f"```U!check settings```\n"
                          f"```U!check stats```\n"
                          f"```U!check version```"
+                   )\
+        .add_field(name=f"Create Invite",
+                   value=f"Creates an invite to invite the bot to a server.\n"
+                         f"To use:\n"
+                         f"```U!invite```"
                    )
 
     await ctx.send(embed=help_embed)
