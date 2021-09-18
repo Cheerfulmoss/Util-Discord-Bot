@@ -311,7 +311,7 @@ async def discord_help(ctx):
                          f"```U!check stats```\n"
                          f"```U!check version```"
                    )\
-        .add_field(name=f"Create Invite",
+        .add_field(name=f"Invite",
                    value=f"Creates an invite to invite the bot to a server.\n"
                          f"To use:\n"
                          f"```U!invite```"
