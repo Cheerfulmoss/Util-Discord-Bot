@@ -9,10 +9,6 @@ from dotenv import load_dotenv
 import re
 from cogs.GeneralFunctions.string_formatters import title_format
 
-# Debug ------------
-full_debug = True
-# ------------------
-
 
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
@@ -80,12 +76,9 @@ async def on_ready():
     print(debug_title_ready[0])
     print(f"{datetime.datetime.now()}   ||   {client.user} is ready!")
     print(debug_title_ready[1])
-    if full_debug == False:
-        load_cogs("Initial")
 
 
-if full_debug == True:
-    load_cogs("Initial")
+load_cogs("Initial")
 
 
 @client.event
