@@ -81,6 +81,12 @@ class VersionUtil(commands.Cog):
                 await ctx.send(embed=bar_embed)
             await ctx.send(embed=properties_embed)
 
+    @check.error
+    async def check_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.message.delete()
+
 
 def setup(client):
     client.add_cog(VersionUtil(client))
