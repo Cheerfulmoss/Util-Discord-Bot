@@ -64,10 +64,10 @@ class VersionUtil(commands.Cog):
             properties_embed.add_field(name="Percentage of words that are swears or slurs:",
                                        value=f"{round(percent, 2)}%"
                                        )
-            await ctx.send(embed=properties_embed,
-                           content=f"Percentage of words that are swears or slurs\n"
-                                   f"0% | {bar_custom} | 100%"
-                           )
+            bar_embed = discord.Embed(title="Percentage Graph", colour=discord.Colour.blurple())\
+                .add_field(name=f"0% | {bar_custom} | 100%", value=f"X at {round(percent, 2)}%")
+            await ctx.send(embed=bar_embed)
+            await ctx.send(embed=properties_embed)
 
 
 def setup(client):
