@@ -28,7 +28,17 @@ class VersionUtil(commands.Cog):
         print(debug_title_ready[1])
 
     @commands.command()
-    async def check(self, ctx, *, option):
+    async def check(self, ctx, option, narrow="none"):
+        narrow_list = ["true", "none"]
+        if narrow.lower() not in narrow_list:
+            help_embed = discord.Embed(title="Check help", colour=discord.Colour.from_rgb(26, 255, 0)) \
+                .add_field(name="Explanation", value="There are 2 parameters:\n"
+                                                     "The option and sub option, the option can be version, settings or"
+                                                     "stats. While narrow only applies to stats and shows a percentage"
+                                                     "graph of how many messages have swears or slurs in them compared"
+                                                     "to total messages in the server.") \
+                .add_field(name="Use", value="U!check [version / settings / stats] [true or leave blank]")
+            await ctx.send(embed=help_embed)
 
         global bot_name
         for symbol in string.punctuation:
@@ -64,9 +74,11 @@ class VersionUtil(commands.Cog):
             properties_embed.add_field(name="Percentage of words that are swears or slurs:",
                                        value=f"{round(percent, 2)}%"
                                        )
-            bar_embed = discord.Embed(title="Percentage Graph", colour=discord.Colour.blurple())\
-                .add_field(name=f"0% | {bar_custom} | 100%", value=f"X at {round(percent, 2)}%")
-            await ctx.send(embed=bar_embed)
+
+            if narrow.lower() == "true":
+                bar_embed = discord.Embed(title="Percentage Graph", colour=discord.Colour.blurple()) \
+                    .add_field(name=f"0% | {bar_custom} | 100%", value=f"X at {round(percent, 2)}%")
+                await ctx.send(embed=bar_embed)
             await ctx.send(embed=properties_embed)
 
 
