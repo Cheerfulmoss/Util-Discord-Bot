@@ -81,14 +81,6 @@ load_cogs("Initial")
 
 
 @client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f"Please pass in all required arguments")
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send(f"You do not have necessary permissions")
-
-
-@client.event
 async def on_disconnect():
     debug_title_disconnect = title_format(f"{bot_name}: Disconnected")
     print(debug_title_disconnect[0])
@@ -196,15 +188,21 @@ async def profanity_settings(ctx, slurs, swearwords):
     print(debug_title_settings[1])
 
 
+@profanity_settings.error
+async def profanity_settings_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+        await ctx.message.delete()
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+        await ctx.message.delete()
+
+
+
 @client.command()
 @commands.is_owner()
-async def load(ctx, extension="all"):
-    if extension == "all":
-        for file_name in os.listdir("./cogs"):
-            if file_name.endswith(".py"):
-                client.load_extension(f"cogs.{file_name[:-3]}")
-    else:
-        client.load_extension(f"cogs.{extension}")
+async def load(ctx, extension):
+    client.load_extension(f"cogs.{extension}")
 
 
 @client.command()
@@ -216,22 +214,8 @@ async def unload(ctx, extension):
 @client.command()
 @commands.is_owner()
 async def reload(ctx):
-    debug_title_reload = title_format(f"{bot_name}: Reload")
-    print(debug_title_reload[0])
-    for file_name in os.listdir("./cogs"):
-        if file_name.endswith(".py"):
-            client.unload_extension(f"cogs.{file_name[:-3]}")
-            print(f"{datetime.datetime.now()}   ||   {file_name} unloaded successfully")
-    await asyncio.sleep(2)
-    print(debug_title_reload[1])
-    await asyncio.sleep(2)
-    for file_name in os.listdir("./cogs"):
-        if file_name.endswith(".py"):
-            client.load_extension(f"cogs.{file_name[:-3]}")
-            print(f"{datetime.datetime.now()}   ||   {file_name} loaded successfully")
+    reload_cogs("Manual")
     await ctx.send("Cogs reloaded")
-    print(f"{datetime.datetime.now()}   ||   Cogs reloaded")
-    print(debug_title_reload[1])
 
 
 @client.command(aliases=["invite", "Invite"])
@@ -309,7 +293,7 @@ async def discord_help(ctx):
                          f"```U!invite```"
                    )
 
-    await ctx.send(embed=help_embed)
+    await ctx.author.send(embed=help_embed)
 
 
 load_dotenv()
