@@ -28,11 +28,29 @@ class UserUtil(commands.Cog):
         await member.kick(reason=reason)
         await ctx.send(f"Kicked {member.mention} for {reason}")
 
+    @kick.error
+    async def kick_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.message.delete()
+
     @commands.command()
     @commands.has_permissions(administrator=True, ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
         await ctx.send(f"Banned {member.mention} for {reason}")
+
+    @ban.error
+    async def ban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.message.delete()
 
     @commands.command()
     @commands.has_permissions(administrator=True, ban_members=True)
@@ -47,6 +65,15 @@ class UserUtil(commands.Cog):
                 await ctx.guild.unban(user=user)
                 await ctx.send(f"Unbanned {user.name}#{user.discriminator}")
                 return
+
+    @unban.error
+    async def unban_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.message.delete()
 
     @commands.command()
     @commands.has_permissions(administrator=True, ban_members=True)
@@ -65,12 +92,18 @@ class UserUtil(commands.Cog):
             banned_bot_list = None
         if len(banned_member_list) <= 0:
             banned_member_list = None
-            
+
         ban_embed = discord.Embed(title="Banned Users", color=discord.Color.red())
         ban_embed.add_field(name="Humans",
                             value=str(banned_member_list).replace("[", "").replace("]", "").replace("'", ""), )
         ban_embed.add_field(name="Bots", value=str(banned_bot_list).replace("[", "").replace("]", "").replace("'", ""))
         await ctx.send(embed=ban_embed)
+
+    @banlist.error
+    async def banlist_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
 
     @commands.command()
     async def pingmein(self, ctx, tick: int, time_unit):
@@ -94,6 +127,12 @@ class UserUtil(commands.Cog):
             await ctx.send(f"{ctx.message.author.mention} Your time is up: It has been {tick} {time_unit_type}")
 
         return
+
+    @pingmein.error
+    async def pingmein_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.message.delete()
 
 
 def setup(client):
