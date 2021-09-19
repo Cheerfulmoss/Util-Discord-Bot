@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 import re
 from cogs.GeneralFunctions.string_formatters import title_format
 
-
 client = commands.Bot(command_prefix="U!")
 client.remove_command('help')
 cwd = os.getcwd()
@@ -303,7 +302,7 @@ async def discord_help(ctx):
                          f"```U!check settings```\n"
                          f"```U!check stats```\n"
                          f"```U!check version```"
-                   )\
+                   ) \
         .add_field(name=f"Invite",
                    value=f"Creates an invite to invite the bot to a server.\n"
                          f"To use:\n"
