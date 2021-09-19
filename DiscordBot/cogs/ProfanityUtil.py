@@ -40,20 +40,22 @@ class ProfanityUtil(commands.Cog):
 
             slur_count = properties[str(message.guild.id)]["slurcount"]
             swear_count = properties[str(message.guild.id)]["swearcount"]
+            word_count = properties[str(message.guild.id)]["wordcount"]
+            word_count += 1
 
             for word in self.pList["swearwords"]:
                 if word in message_fix:
-                    if server_settings[f"{message.guild.id}"]["SwearWords"].lower() == "true":
+                    if server_settings[f"{message.guild.id}"]["swearwords"].lower() == "true":
                         await message.delete()
                     swear_count += 1
 
             for word in self.pList["slurs"]:
                 if word in message_fix:
-                    if server_settings[f"{message.guild.id}"]["Slurs"].lower() == "true":
+                    if server_settings[f"{message.guild.id}"]["slurs"].lower() == "true":
                         await message.delete()
                     slur_count += 1
 
-            properties[str(message.guild.id)] = {"slurcount": slur_count, "swearcount": swear_count}
+            properties[str(message.guild.id)] = {"slurcount": slur_count, "swearcount": swear_count, "wordcount": word_count}
             with open(f"{self.cwd}\\cogs\\ServerProperties\\properties.json", "w") as propertiesJson:
                 json.dump(properties, propertiesJson, indent=4)
 
