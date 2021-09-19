@@ -35,6 +35,12 @@ class TextUtil(commands.Cog):
             print(f"{datetime.datetime.now()}   ||   Channel clear attempt for {ctx.guild.id}: FAILED")
             print(debug_title_clear_prohibited[1])
 
+    @clear.error
+    async def clear_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
+
     @commands.command()
     @commands.has_permissions(administrator=True, manage_messages=True)
     async def purge(self, ctx):
@@ -51,6 +57,11 @@ class TextUtil(commands.Cog):
             print(f"{datetime.datetime.now()}   ||   Channel purged attempt for {ctx.guild.id}: FAILED")
             print(debug_title_purge_prohibited[1])
 
+    @purge.error
+    async def purge_error(self, ctx, error):
+        if isinstance(error, commands.MissingPermissions):
+            await ctx.send(":no_entry: Missing Permissions", delete_after=3)
+            await ctx.message.delete()
 
 def setup(client):
     client.add_cog(TextUtil(client))
