@@ -54,10 +54,12 @@ class VersionUtil(commands.Cog):
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
 
             settings_embed = discord.Embed(title=f"{bot_name} Settings", colour=discord.Colour.from_rgb(255, 255, 0))
-            swear_setting = server_settings[f"{ctx.guild.id}"]["SwearWords"].lower()
-            slur_settings = server_settings[f"{ctx.guild.id}"]["Slurs"].lower()
+            swear_setting = server_settings[f"{ctx.guild.id}"]["swearwords"].lower()
+            slur_settings = server_settings[f"{ctx.guild.id}"]["slurs"].lower()
+            in_depth_search = server_settings[f"{ctx.guild.id}"]["indepthsearch"].lower()
             settings_embed.add_field(name="Profanity Filter", value=f"Swear Words: {swear_setting.upper()}\n"
-                                                                    f"Slurs: {slur_settings.upper()}")
+                                                                    f"Slurs: {slur_settings.upper()}\n"
+                                                                    f"In Depth Search: {in_depth_search}")
             await ctx.send(embed=settings_embed)
 
         elif "stat" in option:
