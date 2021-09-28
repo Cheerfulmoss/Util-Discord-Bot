@@ -109,12 +109,13 @@ async def on_guild_join(guild):
 
     slurs = "True"
     swear_words = "False"
+    in_depth_search = "False"
 
     swear_count = 0
     slur_count = 0
     word_count = 0
 
-    settings[str(guild.id)] = {"slurs": slurs, "swearwords": swear_words}
+    settings[str(guild.id)] = {"slurs": slurs, "swearwords": swear_words, "indepthsearch": in_depth_search}
     properties[str(guild.id)] = {"slurcount": slur_count, "swearcount": swear_count, "wordcount": word_count}
 
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "w") as settingsJson:
@@ -157,16 +158,16 @@ async def auto_reload():
 
 @client.command(aliases=["profanitysettings"])
 @commands.has_permissions(administrator=True)
-async def profanity_settings(ctx, slurs, swearwords):
+async def profanity_settings(ctx, slurs, swearwords, in_depth_search):
     if NOR(slurs.lower() == "true" or slurs.lower() == "false",
            swearwords.lower() == "true" or swearwords.lower() == "false"):
         idle_embed = discord.Embed(title="Change Profanity Settings", colour=discord.Colour.from_rgb(255, 0, 0))
         idle_embed.add_field(name="Syntax:",
-                             value="U!profanitysettings [True/False value for slur checks] [True/False value for swear checks]") \
+                             value="U!profanitysettings [True/False value for slur checks] [True/False value for swear checks] [True/False value determining if it does an in depth search]") \
             .add_field(name="Example:",
-                       value="U!profanitysettings True False") \
+                       value="U!profanitysettings True False True") \
             .add_field(name="Notes:",
-                       value="The base values for this are Slurs=True and SwearWords=False.")
+                       value="The base values for this are Slurs=True, SwearWords=False and InDepthSearch=False.")
         await ctx.send(embed=idle_embed)
         return
 
@@ -175,14 +176,16 @@ async def profanity_settings(ctx, slurs, swearwords):
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r") as settingsJson:
         settings = json.load(settingsJson)
 
-    settings[str(ctx.guild.id)] = {"Slurs": slurs, "SwearWords": swearwords}
+    settings[str(ctx.guild.id)] = {"Slurs": slurs, "SwearWords": swearwords, "indepthsearch": in_depth_search}
 
     with open(f"{cwd}\\cogs\\ServerProperties\\ServerSettings.json", "w") as settingsJson:
         json.dump(settings, settingsJson, indent=4)
     print(f"{datetime.datetime.now()}   ||   Settings changed for {ctx.guild.id}")
 
     response = discord.Embed(title="Profanity Settings", color=discord.Color.from_rgb(255, 255, 0))
-    response.add_field(name="Slurs:", value=slurs.upper()).add_field(name="Swear Words", value=swearwords.upper())
+    response.add_field(name="Slurs:", value=slurs.upper()).\
+        add_field(name="Swear Words", value=swearwords.upper()).\
+        add_field(name="In Depth Search", value=in_depth_search.upper())
 
     await ctx.send(embed=response)
     print(debug_title_settings[1])
