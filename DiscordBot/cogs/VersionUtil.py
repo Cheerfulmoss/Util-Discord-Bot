@@ -87,7 +87,12 @@ class VersionUtil(commands.Cog):
     @check.error
     async def check_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.send(":scream: Missing Required Parameters\n"
+                           "Format: \n"
+                           f"```U!check settings```\n"
+                           f"```U!check stats [True/False whether it should only be the graph]```\n"
+                           f"```U!check version```"
+                           , delete_after=3)
             await ctx.message.delete()
 
 
