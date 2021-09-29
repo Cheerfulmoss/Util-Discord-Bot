@@ -197,7 +197,8 @@ async def profanity_settings_error(ctx, error):
         await ctx.send(":no_entry: Missing Permissions", delete_after=3)
         await ctx.message.delete()
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+        await ctx.send(":scream: Missing Required Parameters\n"
+                       "Format: ```U!profanitysettings [True/False value for slur checks] [True/False value for swear checks] [True/False value determining if it does an in depth search]```", delete_after=3)
         await ctx.message.delete()
 
 
@@ -249,7 +250,7 @@ async def discord_help(ctx):
         help_embed.add_field(name=f"Profanity Settings",
                              value=f"This command controls the settings of the profanity filter on your server.\n"
                                    f"To use:\n"
-                                   f"```U!profanitysettings [True/False value for slur checks] [True/False value for swear checks]```"
+                                   f"```U!profanitysettings [True/False value for slur checks] [True/False value for swear checks] [True/False value determining if it does an in depth search]```"
                              )
     if if_admin or if_manage_messages:
         help_embed.add_field(name=f"Clear and Purge",
