@@ -95,7 +95,7 @@ class ProfanityUtil(commands.Cog):
         if message.author != self.client.user:
             for symbol in string.punctuation:
                 message_depth = message.content.replace(symbol, "").replace(" ", "")
-                message_surface = message.content
+                message_surface = message.content.replace(symbol, "")
 
             server_settings = json.load(open(f"{self.cwd}\\cogs\\ServerProperties\\ServerSettings.json", "r"))
             search_setting = server_settings[f"{message.guild.id}"]["indepthsearch"].lower()
