@@ -10,5 +10,26 @@
     "sheepshagger", "slopehead", "slopy", "slopey", "sloper", "wog", "abbie", "abie", "nigger", "nigga",
     "bohunk", "buddhahead", "cholo", "coolie", "currymuncher", "goombah", "gringo", "kraut", "mulignan", "mulignon",
     "moolinya", "seppo", "slopehead", "spearchucker", "squaw", "veneco", "wigger", "whigger", "wigga", "yankee"
+  ],
+  "swearwords word specific": [
+    "arse", "arsehole", "ass", "asshat", "asshole", "assmonkey", "ballsucker", "balljuice", "bastard", "bitch",
+    "buggery", "bullshit", "chickenshit", "cock", "cockhead", "cocksucker", "cum", "cumslut", "cunt", "dago", "dick",
+    "dickhead", "dicksucker", "dumbshit", "fuck", "fucked", "fucker", "fuckery", "fucking", "fuckstick", "fucktard",
+    "fuckwad", "fuckwit", "gayass", "gaybob", "gaydo", "gaylord", "gook", "hore", "homo", "hooker", "horseshit", "jizz",
+    "lesbo", "lez", "lezzie", "lezzo", "motherfucker", "pussy", "ratfucking", "shit", "shitass", "shitface", "shithead",
+    "shithole", "shithouse", "shitty", "slut", "twat", "tits", "wank", "whore", "whorehouse"
+  ],
+  "slurs word specific": [
+    "abid", "abeed", "abo", "abbo", "annamite", "arabush", "aravush", "argie", "argies", "armo", "aseng", "ashkenazi",
+    "bamboula", "balija", "beaner", "beaney", "bluegum", "boche", "bosche", "bosch", "boeotian", "boerehater",
+    "boerhater", "bogtrotter", "bohunk", "boonga", "bootlip", "Bougnoule", "bozgor", "buddhahead", "buckra", "bakra",
+    "Burrhead", "carcamano", "chankoro", "cheechee", "chichi", "cheesehead", "chefur", "chekwa", "chernozhopy",
+    "chilote", "chink", "chinky", "chukhna", "churka", "ciapaty", "ciapak", "coon", "coonass", "crucco", "dego", "dago",
+    "dhoti", "dogan", "dogun", "dothead", "fenian", "feuj", "fjellabe", "frogeater", "gabacho", "gans", "garoi", "godon",
+    "golliwog", "gook", "gora", "goy", "goyim", "goyum", "grago", "gragok", "gringo", "Heeb", "hebe", "injun", "jewboy",
+    "kanaka", "kike", "kyke", "kraut", "lebo", "leb", "limey", "macaca", "mulignan", "mulignon", "moolinyan", "nignog",
+    "niglet", "nigger", "nigor", "nigra", "nigga", "nitchie", "neche", "neechee", "neejee", "nichi", "nichiwa", "nidge",
+    "nitchee", "nitchy", "paki", "pakkis", "pak", "paleface", "portagee", "sheepshagger", "slopehead", "slopy", "sloper",
+    "thicklips", "tarbaby", "wigger", "whigger", "wigga", "wetback", "zipperhead"
   ]
 }
