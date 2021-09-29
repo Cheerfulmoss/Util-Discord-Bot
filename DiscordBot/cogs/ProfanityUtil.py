@@ -52,16 +52,15 @@ def surface_search(message: str, guild_id, word_list):
         word_count = properties[str(guild_id)]["wordcount"]
     word_count += 1
 
-    words = str(message).split()
 
     for word in word_list["swearwords"]:
-        if word in words:
+        if word in message:
             if server_settings[f"{guild_id}"]["swearwords"].lower() == "true":
                 swear_word = True
             swear_count += 1
 
     for word in word_list["slurs"]:
-        if word in words:
+        if word in message:
             if server_settings[f"{guild_id}"]["slurs"].lower() == "true":
                 slur = True
             slur_count += 1
