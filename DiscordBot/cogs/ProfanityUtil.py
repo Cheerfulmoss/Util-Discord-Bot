@@ -103,10 +103,12 @@ class ProfanityUtil(commands.Cog):
             if search_setting.lower() == "true":
                 search_depth = in_depth_search(message=message_depth, guild_id=message.guild.id, word_list=self.pList)
                 search_surface = surface_search(message=message_surface, guild_id=message.guild.id, word_list=self.pList)
+                if search_surface[0] or search_surface[1] or search_depth[0] or search_depth[1]:
+                    await message.delete()
             else:
                 search_surface = surface_search(message=message_surface, guild_id=message.guild.id, word_list=self.pList)
-            if search_depth[0] or search_depth[1] or search_surface[0] or search_surface[1]:
-                await message.delete()
+                if search_surface[0] or search_surface[1]:
+                    await message.delete()
 
 
 def setup(client):
