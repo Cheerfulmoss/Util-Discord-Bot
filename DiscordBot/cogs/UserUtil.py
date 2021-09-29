@@ -34,7 +34,8 @@ class UserUtil(commands.Cog):
             await ctx.send(":no_entry: Missing Permissions", delete_after=3)
             await ctx.message.delete()
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.send(":scream: Missing Required Parameters\n"
+                           "Format: ```U!kick @playername#0000 cause i can```", delete_after=3)
             await ctx.message.delete()
 
     @commands.command()
@@ -49,7 +50,8 @@ class UserUtil(commands.Cog):
             await ctx.send(":no_entry: Missing Permissions", delete_after=3)
             await ctx.message.delete()
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.send(":scream: Missing Required Parameters\n"
+                           "Format: ```U!ban @playername#0000 cause i can```", delete_after=3)
             await ctx.message.delete()
 
     @commands.command()
@@ -72,7 +74,8 @@ class UserUtil(commands.Cog):
             await ctx.send(":no_entry: Missing Permissions", delete_after=3)
             await ctx.message.delete()
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.send(":scream: Missing Required Parameters\n"
+                           "Format: ```U!unabn @playername#0000```", delete_after=3)
             await ctx.message.delete()
 
     @commands.command()
@@ -131,7 +134,8 @@ class UserUtil(commands.Cog):
     @pingmein.error
     async def pingmein_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(":scream: Missing Required Parameters", delete_after=3)
+            await ctx.send(":scream: Missing Required Parameters\n"
+                           "Format: ``U!pingmein [units of time] [type: seconds, minutes, hours]```", delete_after=3)
             await ctx.message.delete()
 
 
