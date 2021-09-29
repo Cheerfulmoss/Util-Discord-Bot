@@ -54,13 +54,13 @@ def surface_search(message: str, guild_id, word_list):
 
     words = str(message).split()
 
-    for word in word_list["swearwords"]:
+    for word in word_list["swearwords word specific"]:
         if word in words:
             if server_settings[f"{guild_id}"]["swearwords"].lower() == "true":
                 swear_word = True
             swear_count += 1
 
-    for word in word_list["slurs"]:
+    for word in word_list["slurs word specific"]:
         if word in words:
             if server_settings[f"{guild_id}"]["slurs"].lower() == "true":
                 slur = True
