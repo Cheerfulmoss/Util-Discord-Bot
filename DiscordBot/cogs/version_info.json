@@ -1,4 +1,4 @@
 {
-  "version": "1.7",
-  "version_note": "twest"
+  "version": "1.9",
+  "version_note": "Updated the help command and on_error returns"
 }
