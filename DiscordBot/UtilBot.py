@@ -30,7 +30,7 @@ def load_cogs(load_type):
     try:
         load_cog_title = title_format(f"{bot_name}: {load_type} Load")
     except:
-        load_cog_title = title_format(f"UtilBot: {load_type} Load")
+        load_cog_title = title_format(f"Bot: {load_type} Load")
     print(load_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
@@ -43,7 +43,7 @@ def unload_cogs(load_type):
     try:
         unload_cog_title = title_format(f"{bot_name}: {load_type} Unload")
     except:
-        unload_cog_title = title_format(f"UtilBot: {load_type} Unload")
+        unload_cog_title = title_format(f"Bot: {load_type} Unload")
     print(unload_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
@@ -56,7 +56,7 @@ def reload_cogs(load_type):
     try:
         reload_cog_title = title_format(f"{bot_name}: {load_type} Reload")
     except:
-        reload_cog_title = title_format(f"UtilBot: {load_type} Reload")
+        reload_cog_title = title_format(f"Bot: {load_type} Reload")
     print(reload_cog_title[0])
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
@@ -288,7 +288,7 @@ async def discord_help(ctx):
                    value=f"Check lets you check the settings or stats of the server you're in and the version of the bot.\n"
                          f"To use:\n"
                          f"```U!check settings```\n"
-                         f"```U!check stats```\n"
+                         f"```U!check stats [True/False whether it should only be the graph]```\n"
                          f"```U!check version```"
                    ) \
         .add_field(name=f"Invite",
