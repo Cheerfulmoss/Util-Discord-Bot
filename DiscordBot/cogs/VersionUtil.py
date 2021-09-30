@@ -81,6 +81,7 @@ class VersionUtil(commands.Cog):
                 bar_embed = discord.Embed(title="Percentage Graph", colour=discord.Colour.blurple()) \
                     .add_field(name=f"0% | {bar_custom} | 100%", value=f"X at {round(percent, 2)}%")
                 await ctx.send(embed=bar_embed)
+                return
             await ctx.send(f"0% | {bar_custom} | 100%")
             await ctx.send(embed=properties_embed)
 
